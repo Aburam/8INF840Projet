@@ -11,7 +11,7 @@ class BTree
 {
 public:
 	BTree();
-	BTree();
+	~BTree();
 
 	void parcours(BTree* p);
 
