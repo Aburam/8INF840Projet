@@ -111,9 +111,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BTree.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="SBTree.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BTree.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="SBTree.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Projet1.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="dictionnaire.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
