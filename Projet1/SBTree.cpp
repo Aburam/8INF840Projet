@@ -1,8 +1,8 @@
 #include "SBTree.h"
 
+static int pause = 0;
 
 
-using namespace std;
 SBTree::SBTree() : m_n(0), m_B(0), m_b(0), m_suffixSize(0), m_lcp(0), m_height(0)
 {
 	
@@ -41,7 +41,7 @@ void SBTree::init(string text)
 	int index = 0;
 	m_root = new BTree(m_b);
 
-	while (iss >> word && index<23) {
+	while (iss >> word) {
 		index = text.find(word) + 1;
 		string wordFixe = word;
 		for (int i = 0; i < word.size(); ++i) {
@@ -51,6 +51,12 @@ void SBTree::init(string text)
 				m_root->insert(make_pair(index, pointer));
 				cout << "Parcours2 : " << endl;
 				m_root->parcours();
+
+				pause++;
+				/*if (pause >= 13) {
+					cout << "PAUSE" << endl;
+					system("pause");
+				}*/
 				cout << "Fin Parcours : " << endl;
 				++index;
 		}

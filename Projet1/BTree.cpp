@@ -1,6 +1,5 @@
 #include "BTree.h"
 
-static int pause = 0;
 
 BTree::BTree()
 {
@@ -39,13 +38,13 @@ void BTree::parcours(BTree * p)
 	int index;
 
 	if (p->m_leaf == false) {
-		cout << "NOEUD PARENT :";
+		cout << "***";
 		for (index = 0; index < p->m_size; ++index) {
 
 			cout << " [" << p->m_data[index].first << ", " << p->m_data[index].second << "] ";
 
 		}
-		cout << "FIN NOEUD PARENT" << endl;
+		cout << "***" << endl;
 		parcours(p->m_child[0]);
 		parcours(p->m_child[1]);
 	}
@@ -177,19 +176,23 @@ pair<int, string> BTree::split_child(BTree *x, int i) {
 		}
 
 		else if (i == 0) {
-			/*cout << "3y : " << y->m_data[3].first << endl;
-			cout << " 0w: " << x->m_child[1]->m_data[0].first << endl;
+			//cout << "3y : " << y->m_data[3].first << endl;
+			//cout << " 0w: " << x->m_child[1]->m_data[0].first << endl;
 
-			y->m_data[y->m_size-1]= x->m_child[1]->m_data[0];
-			y->m_size++;
 			cout << "Taille y : " << y->m_size << endl;
+			cout << "Taille x : " << x->m_child[1]->m_size << endl;
 
-			for (int i = 0; i < x->m_child[1]->m_size-1; ++i) {
-				x->m_child[1]->m_data[i] = x->m_child[1]->m_data[i + 1];
+			x->m_child[1]->m_size++;
+			for (int i = x->m_child[1]->m_size - 2; i >= 0; --i) {
+				x->m_child[1]->m_data[i+1] = x->m_child[1]->m_data[i];
 			}
-			x->m_child[1]->m_data[x->m_child[1]->m_size - 1] = make_pair(0, "");
-			x->m_child[1]->m_size--;
-			*/
+			x->m_child[1]->m_data[0] = y->m_data[y->m_size - 1];
+			y->m_data[y->m_size - 1] = make_pair(0, "");
+			y->m_size--;
+
+			cout << "Taille y : " << y->m_size << endl;
+			cout << "Taille x : " << x->m_child[1]->m_size << endl;
+
 			x->m_data[0] = y->m_data[0];
 			cout << "0 : " << x->m_data[0].first << endl;
 			x->m_data[1] = y->m_data[y->m_size - 1];
@@ -288,14 +291,37 @@ void BTree::insert(pair<int, string> a)
 				//Attention on gère les enfants donc index / msize/2
 				if (m_part->m_child[(int) index/ ((m_part->m_size/2)+1)]->m_size == m_b && m_part->m_child[(int)index / ((m_part->m_size / 2) + 1)]->m_leaf)
 				{
-					pause++;
-					if (pause == 7) {
-						cout << "PAUSE" << endl;
-						system("pause");
+					parcours();
+					
+					int i = (int)index / ((m_part->m_size / 2) + 1);
+					
+					if (!(m_part->m_child[0]->m_size == m_b && m_part->m_child[1]->m_size < m_b)) {
+						cout << "RAPPEL, i :" << i << endl;
+						temp = split_child(m_part, i);
 					}
-						
-					cout << "RAPPEL, i :" << (int)index / ((m_part->m_size / 2) + 1) << endl;
-					temp = split_child(m_part, (int)index / ((m_part->m_size / 2) + 1));
+					else {
+						if (a.second.compare(m_part->m_child[0]->m_data[m_part->m_child[0]->m_size - 1].second) < 0) {
+							if (m_part->m_child[0]->m_leaf) {
+								temp = split_child(m_part, i);
+							}
+						}
+						else {
+							m_part = m_part->m_child[1];
+						}
+					}
+				
+					/*else {
+						if (!(m_part->m_child[0]->m_size < m_b && m_part->m_child[1]->m_size == m_b) && (a.second.compare(m_part->m_child[0]->m_data[m_part->m_child[0]->m_size-1].second)>0)) {
+							cout << "RAPPEL, i :" << i << endl;
+							temp = split_child(m_part, i);
+						}
+						else {
+							m_part = m_part->m_child[i];
+						}
+					}*/
+					
+
+					
 				//	m_part->m_data[m_part->m_size-1] = temp;
 					//m_part->m_size++;
 
@@ -307,7 +333,6 @@ void BTree::insert(pair<int, string> a)
 		}
 	}
 	//ajout de l'élément dans le bon cluster
-	
 	m_part->m_data[m_part->m_size] = a;
 	//reorganisation du cluster
 	sort(m_part->m_data, m_part->m_size);
