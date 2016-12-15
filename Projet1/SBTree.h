@@ -4,7 +4,10 @@
 
 #include <math.h>
 #include <iostream>
+#include <sstream>
 #include <string.h>
+#include <vector>
+#include "BTree.h"
 
 using namespace std;
 
@@ -15,9 +18,7 @@ class SBTree
 		int data[0];
 	} diskpage;
 
-	typedef struct {
-		
-	} sbtree;
+	
 
 public:
 	
@@ -26,7 +27,18 @@ public:
 
 	~SBTree();
 
+	void init(string text);
+
 private:
+
+	class Leaf {
+		public:
+			int index;
+			const string suffix;
+			Leaf(int i, const string suf) : index(i), suffix(suf) {}
+
+	};
+
 	int m_B; /* page size*/
 	int m_b; /* each node in the tree contains b <= x <= 2b suffixes */
 	int m_n; /* number of suffix*/
@@ -34,7 +46,8 @@ private:
 	int m_suffixSize; 
 	int m_lcp;
 	char* m_text;
-	diskpage* m_root;
+	BTree* m_root;
+	std::vector<Leaf*> m_nodes;
 
 };
 
