@@ -64,3 +64,35 @@ void SBTree::init(string text)
 
 	cout << "Fin Parcours" << endl;
 }
+
+void SBTree::insert(string text)
+{
+	int index = 0;
+	istringstream iss(text);
+	string word;
+	while (iss >> word) {
+		index = m_n+1+ text.find(word) + 1;
+		string wordFixe = word;
+		for (int i = 0; i < word.size(); ++i) {
+			string pointer = &word[i];
+			cout << index << ", " << pointer << endl;
+			m_nodes.push_back(new Leaf(index, pointer));
+			try {
+				m_root->insert(make_pair(index, pointer));
+			}
+			catch (logic_error le) {
+				cout << "Logic error: " << le.what() << endl;
+			}
+
+
+			++index;
+		}
+	}
+	m_n = index-1;
+
+}
+
+void SBTree::display()
+{
+	m_root->parcours();
+}

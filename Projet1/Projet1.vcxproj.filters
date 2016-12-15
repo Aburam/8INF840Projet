@@ -45,5 +45,8 @@
     <Text Include="dictionnaire.txt">
       <Filter>Fichiers sources</Filter>
     </Text>
+    <Text Include="dictionnaire2.txt">
+      <Filter>Fichiers sources</Filter>
+    </Text>
   </ItemGroup>
 </Project>

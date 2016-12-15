@@ -24,7 +24,6 @@ BTree::~BTree()
 }
 
 void BTree::parcours() {
-	cout << m_root->m_size << endl;
 	parcours(this->m_root);
 }
 
@@ -82,7 +81,7 @@ void BTree::sort(pair<int, string>* p, int size)
 				}
 			}
 			else {
-				throw logic_error("ERREUR, Une valeur est mise à 0");
+				throw logic_error("ERREUR fusion, Une valeur est mise à 0");
 			}
 		}
 	}
@@ -205,7 +204,7 @@ void BTree::insert(pair<int, string> a)
 
 			temp = split_child(m_part, -1);
 			m_part = m_root;
-			for (index = 0; index < m_part->m_size; index++) {
+			for (index = 0; index < m_part->m_size-1; index++) {
 				if (!a.second.empty() && !m_part->m_data[index].second.empty() && !m_part->m_data[index + 1].second.empty()) {
 
 				
@@ -220,7 +219,7 @@ void BTree::insert(pair<int, string> a)
 					}
 				}
 				else {
-					throw logic_error("ERREUR, Une valeur est mise à 0");
+					throw logic_error("ERREUR, insertion sur une feuille, Une valeur est mise à 0");
 				}
 			}
 
@@ -253,19 +252,17 @@ void BTree::insert(pair<int, string> a)
 						}
 					}
 					else {
-						throw logic_error("ERREUR, Une valeur est mise à 0");
+						throw logic_error("ERREUR, insertion sur les enfants d'un noeud, Une valeur est mise à 0");
 						
 					}
 				}
 				//Attention on gère les enfants donc index / msize/2
 				if (m_part->m_child[(int) index/ ((m_part->m_size/2)+1)]->m_size == m_b && m_part->m_child[(int)index / ((m_part->m_size / 2) + 1)]->m_leaf)
 				{
-					parcours();
 					
 					int i = (int)index / ((m_part->m_size / 2) + 1);
 					
 					if (!(m_part->m_child[0]->m_size == m_b && m_part->m_child[1]->m_size < m_b)) {
-						cout << "RAPPEL, i :" << i << endl;
 						temp = split_child(m_part, i);
 					}
 					else {

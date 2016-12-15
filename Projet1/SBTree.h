@@ -29,6 +29,9 @@ public:
 
 	void init(string text);
 
+	void insert(string text);
+	void display();
+
 private:
 
 	class Leaf {
