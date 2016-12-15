@@ -21,6 +21,7 @@ BTree::BTree(int b)
 
 BTree::~BTree()
 {
+
 }
 
 void BTree::parcours() {
@@ -85,7 +86,80 @@ void BTree::sort(pair<int, string>* p, int size)
 			}
 		}
 	}
+}
 
+bool BTree::searchDown(string word)
+{
+	BTree* current = m_root;
+	while (!current->m_leaf) {
+		if (word.compare(current->m_data[0].second) == 0) {
+			while (!current->m_leaf) {
+				current = current->m_child[0];
+			}
+			break;
+		}
+		else if (word.compare(current->m_data[3].second) == 0) {
+			while (!current->m_leaf) {
+				current = current->m_child[1];
+			}
+			break;
+		}
+
+		if ((word.compare(current->m_data[0].second) >= 0 || (word.at(0)== current->m_data[0].second.at(0))) && word.compare(current->m_data[1].second) <= 0 ) {
+			current = current->m_child[0];
+		}
+		else if ((word.compare(current->m_data[2].second) >= 0 || (word.at(0) == current->m_data[2].second.at(0))) && word.compare(current->m_data[3].second) <= 0) {
+			current = current->m_child[1];
+		}
+		else {
+			return false;
+		}
+	}
+	for (int i = 0; i < current->m_size; ++i) {
+		std::size_t found = current->m_data[i].second.find(word);
+		cout << "[" << current->m_data[i].first << ", " << current->m_data[i].second << "]"  << endl;
+		if (found != string::npos){
+			cout << "Trouve ! " << word << " est la sous-chaine de [" << current->m_data[i].first << ", " << current->m_data[i].second << "]" << endl;
+			return true;
+		}
+	}
+	return false;
+}
+
+bool BTree::searchDownSuffix(string word)
+{
+	BTree* current = m_root;
+	while(!current->m_leaf){
+		if (word.compare(current->m_data[0].second) == 0) {
+			while (!current->m_leaf) {
+				current = current->m_child[0];
+			}
+			break;
+		}
+		else if (word.compare(current->m_data[3].second) == 0) {
+			while (!current->m_leaf) {
+				current = current->m_child[1];
+			}
+			break;
+		}
+
+		if (word.compare(current->m_data[0].second) >= 0 && word.compare(current->m_data[1].second) <= 0){
+			current = current->m_child[0];
+		}
+		else if (word.compare(current->m_data[2].second) >= 0 && word.compare(current->m_data[3].second) <= 0) {
+			current = current->m_child[1];
+		}
+		else {
+			return false;
+		}
+	}
+	for (int i = 0; i < current->m_size; ++i) {
+		if (word.compare(current->m_data[i].second) == 0) {
+			cout << "Trouve ! [" << current->m_data[i].first << ", " << current->m_data[i].second << "]" << endl;
+			return true;
+		}
+	}
+	return false;
 }
 
 pair<int, string> BTree::split_child(BTree *x, int i) {

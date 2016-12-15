@@ -23,6 +23,9 @@ public:
 
 	void sort(pair<int, string>* p, int size);
 
+	bool searchDown(string word);
+
+	bool searchDownSuffix(string word);
 
 	void insert(pair<int, string> a);
 	

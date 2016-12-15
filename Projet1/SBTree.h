@@ -32,6 +32,10 @@ public:
 	void insert(string text);
 	void display();
 
+
+	bool seek(string word);
+	bool seekSuffix(string word);
+
 private:
 
 	class Leaf {

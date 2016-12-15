@@ -96,3 +96,21 @@ void SBTree::display()
 {
 	m_root->parcours();
 }
+
+bool SBTree::seek(string word)
+{
+	bool ret = m_root->searchDown(word);
+	if (!ret) {
+		cout << ":( " << word << " non trouve..." << endl;
+	}
+	return ret;
+}
+
+bool SBTree::seekSuffix(string word)
+{
+	bool ret = m_root->searchDownSuffix(word);
+	if (!ret) {
+		cout << ":( " << word << " non trouve..." << endl;
+	}
+	return ret;
+}
