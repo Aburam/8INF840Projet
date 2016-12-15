@@ -61,6 +61,7 @@ void BTree::parcours(BTree * p)
 }
 
 void BTree::sort(pair<int, string>* p, int size)
+
 {
 	int i, j;
 	pair<int, string> temp;
@@ -81,7 +82,7 @@ void BTree::sort(pair<int, string>* p, int size)
 				}
 			}
 			else {
-				cout << "ERREUR 33333333 !!!!!!!!" << endl;
+				throw logic_error("ERREUR, Une valeur est mise à 0");
 			}
 		}
 	}
@@ -139,25 +140,17 @@ pair<int, string> BTree::split_child(BTree *x, int i) {
 			}
 		}
 		x->m_part = part1;
-		cout << "FILS GAUCHE : Taille : " << x->m_size << endl;
 		part3->m_part = part1;
-		cout << "FILS DROIT : Taille : " << part3->m_size << endl;
-		cout << "Pere : Taille : " << part1->m_size << endl;
-		
 		
 	}
 	else {
 
-		cout << "SIZE0" << x->m_child[0]->m_size << endl;
-		cout << "SIZE1" << x->m_child[1]->m_size << endl;
 		if (x->m_child[0]->m_size >= m_b && x->m_child[1]->m_size >= m_b)
 		{
-			cout << "ICI" << endl;
 			split_child(x->m_child[0],-1);
 			split_child(x->m_child[1], -1);
 			return mid;
 		}
-		cout << "que faisons nous la, i ?" << i << endl;
 		y = x->m_child[i];
 		if (i == 1) {
 			x->m_child[0]->m_data[x->m_child[0]->m_size] = y->m_data[0];
@@ -176,11 +169,6 @@ pair<int, string> BTree::split_child(BTree *x, int i) {
 		}
 
 		else if (i == 0) {
-			//cout << "3y : " << y->m_data[3].first << endl;
-			//cout << " 0w: " << x->m_child[1]->m_data[0].first << endl;
-
-			cout << "Taille y : " << y->m_size << endl;
-			cout << "Taille x : " << x->m_child[1]->m_size << endl;
 
 			x->m_child[1]->m_size++;
 			for (int i = x->m_child[1]->m_size - 2; i >= 0; --i) {
@@ -190,18 +178,10 @@ pair<int, string> BTree::split_child(BTree *x, int i) {
 			y->m_data[y->m_size - 1] = make_pair(0, "");
 			y->m_size--;
 
-			cout << "Taille y : " << y->m_size << endl;
-			cout << "Taille x : " << x->m_child[1]->m_size << endl;
-
 			x->m_data[0] = y->m_data[0];
-			cout << "0 : " << x->m_data[0].first << endl;
 			x->m_data[1] = y->m_data[y->m_size - 1];
-			cout << "1 : " << x->m_data[1].first << endl;
 			x->m_data[2] = x->m_child[1]->m_data[0];
-			cout << "2 : " << x->m_data[2].first << endl;
 			x->m_data[3] = x->m_child[1]->m_data[x->m_child[1]->m_size - 1];
-			cout << "3 : " << x->m_data[3].first << endl;
-
 
 		};
 	}
@@ -211,7 +191,6 @@ pair<int, string> BTree::split_child(BTree *x, int i) {
 
 void BTree::insert(pair<int, string> a)
 {
-	cout << "IN INSERT" << endl;
 	int index;
 	pair<int, string> temp;
 	m_part = m_root;
@@ -225,8 +204,6 @@ void BTree::insert(pair<int, string> a)
 		{
 
 			temp = split_child(m_part, -1);
-			cout << "On doit etre la ????????? " << temp.first << endl;
-
 			m_part = m_root;
 			for (index = 0; index < m_part->m_size; index++) {
 				if (!a.second.empty() && !m_part->m_data[index].second.empty() && !m_part->m_data[index + 1].second.empty()) {
@@ -243,27 +220,18 @@ void BTree::insert(pair<int, string> a)
 					}
 				}
 				else {
-					cout << "ERREUR !!!!!!!!!!" << endl;
+					throw logic_error("ERREUR, Une valeur est mise à 0");
 				}
 			}
 
-			cout << "Calcul : "  << index / ((m_part->m_size / 2)+1) << endl;
-			cout << "INDEX: " << index << endl;
-
-			cout << "TAILLE ENFANT:"<<m_part->m_child[(int)index / ((m_part->m_size / 2) + 1)]->m_size + 1 << endl;
-
 			if (index == 0) {
-				cout << "NOON!" << endl;
-
 				m_part->m_data[0] = a;
 			}
 			else if (index-1 == m_part->m_child[(int)index / ((m_part->m_size / 2) + 1)]->m_size+1) {
-				cout << "OOUI!" << endl;
 
 				m_part->m_data[m_part->m_size-1] = a;
 			}
 			m_part = m_part->m_child[(int)index / ((m_part->m_size / 2)+1)];
-			cout << "EST-CE la bonne ? " << m_part->m_data[0].first << endl;
 		}
 		else {
 
@@ -285,7 +253,8 @@ void BTree::insert(pair<int, string> a)
 						}
 					}
 					else {
-						cout << "ERREUR 222222 !!!!!!!!!!" << endl;
+						throw logic_error("ERREUR, Une valeur est mise à 0");
+						
 					}
 				}
 				//Attention on gère les enfants donc index / msize/2
@@ -309,21 +278,6 @@ void BTree::insert(pair<int, string> a)
 							m_part = m_part->m_child[1];
 						}
 					}
-				
-					/*else {
-						if (!(m_part->m_child[0]->m_size < m_b && m_part->m_child[1]->m_size == m_b) && (a.second.compare(m_part->m_child[0]->m_data[m_part->m_child[0]->m_size-1].second)>0)) {
-							cout << "RAPPEL, i :" << i << endl;
-							temp = split_child(m_part, i);
-						}
-						else {
-							m_part = m_part->m_child[i];
-						}
-					}*/
-					
-
-					
-				//	m_part->m_data[m_part->m_size-1] = temp;
-					//m_part->m_size++;
 
 				}
 				else {

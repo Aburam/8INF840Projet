@@ -46,31 +46,21 @@ void SBTree::init(string text)
 		string wordFixe = word;
 		for (int i = 0; i < word.size(); ++i) {
 			string pointer = &word[i];
-				cout << index << ", " << pointer << endl;
-				m_nodes.push_back(new Leaf(index, pointer));
+			cout << index << ", " << pointer << endl;
+			m_nodes.push_back(new Leaf(index, pointer));
+			try {
 				m_root->insert(make_pair(index, pointer));
-				cout << "Parcours2 : " << endl;
-				m_root->parcours();
+			}
+			catch (logic_error le) {
+				cout << "Logic error: " << le.what() << endl;
+			}
+			
 
-				pause++;
-				/*if (pause >= 13) {
-					cout << "PAUSE" << endl;
-					system("pause");
-				}*/
-				cout << "Fin Parcours : " << endl;
-				++index;
+			++index;
 		}
 	}
+	cout << "Parcours : " << endl;
+	m_root->parcours();
 
-
-	//m_root->insert(make_pair(1, "aid"));
-	/*m_root->insert(21);
-	m_root->insert(38);
-	m_root->insert(16);
-	m_root->insert(25);
-	m_root->insert(35);
-	m_root->insert(5);
-	m_root->insert(10);*/
-
-	//m_root->insert();
+	cout << "Fin Parcours" << endl;
 }
