@@ -28,7 +28,9 @@ public:
 	bool searchDownSuffix(string word);
 
 	void insert(pair<int, string> a);
-	
+
+	void release(BTree* p);
+
 
 private:
 

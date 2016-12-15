@@ -1,6 +1,5 @@
 #include "SBTree.h"
 
-static int pause = 0;
 
 
 SBTree::SBTree() : m_n(0), m_B(0), m_b(0), m_suffixSize(0), m_lcp(0), m_height(0)
@@ -31,6 +30,7 @@ SBTree::SBTree(const string text, int maxlcp, int B)
 
 SBTree::~SBTree()
 {
+	m_root->release(m_root);
 }
 
 void SBTree::init(string text)
@@ -47,7 +47,6 @@ void SBTree::init(string text)
 		for (int i = 0; i < word.size(); ++i) {
 			string pointer = &word[i];
 			cout << index << ", " << pointer << endl;
-			m_nodes.push_back(new Leaf(index, pointer));
 			try {
 				m_root->insert(make_pair(index, pointer));
 			}
@@ -76,7 +75,6 @@ void SBTree::insert(string text)
 		for (int i = 0; i < word.size(); ++i) {
 			string pointer = &word[i];
 			cout << index << ", " << pointer << endl;
-			m_nodes.push_back(new Leaf(index, pointer));
 			try {
 				m_root->insert(make_pair(index, pointer));
 			}

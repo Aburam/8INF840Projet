@@ -38,14 +38,6 @@ public:
 
 private:
 
-	class Leaf {
-		public:
-			int index;
-			const string suffix;
-			Leaf(int i, const string suf) : index(i), suffix(suf) {}
-
-	};
-
 	int m_B; /* page size*/
 	int m_b; /* each node in the tree contains b <= x <= 2b suffixes */
 	int m_n; /* number of suffix*/
@@ -54,7 +46,6 @@ private:
 	int m_lcp;
 	char* m_text;
 	BTree* m_root;
-	std::vector<Leaf*> m_nodes;
 
 };
 

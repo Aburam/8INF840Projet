@@ -21,7 +21,9 @@ BTree::BTree(int b)
 
 BTree::~BTree()
 {
-
+	release(m_root);
+	
+	
 }
 
 void BTree::parcours() {
@@ -262,6 +264,18 @@ pair<int, string> BTree::split_child(BTree *x, int i) {
 
 }
 
+void BTree::release(BTree * p)
+{
+	int index;
+	if (p->m_leaf == false) {
+		delete p->m_data;
+		release(p->m_child[0]);
+		release(p->m_child[1]);
+		delete p->m_child;
+	}
+	p->m_part = 0;
+}
+
 void BTree::insert(pair<int, string> a)
 {
 	int index;
@@ -282,7 +296,7 @@ void BTree::insert(pair<int, string> a)
 				if (!a.second.empty() && !m_part->m_data[index].second.empty() && !m_part->m_data[index + 1].second.empty()) {
 
 				
-					if ((a.second.compare(m_part->m_data[index].second)>0) && (a.second.compare(m_part->m_data[index + 1].second)<0))
+					if ((a.second.compare(m_part->m_data[index].second)>=0) && (a.second.compare(m_part->m_data[index + 1].second)<0))
 					{
 						++index;
 						break;
@@ -314,7 +328,7 @@ void BTree::insert(pair<int, string> a)
 				for (index = 0; index < m_part->m_size-1; ++index) {
 					if (!a.second.empty() && !m_part->m_data[index].second.empty() && !m_part->m_data[index + 1].second.empty()) {
 
-						if ((a.second.compare(m_part->m_data[index].second) > 0) && (a.second.compare(m_part->m_data[index + 1].second) < 0))
+						if ((a.second.compare(m_part->m_data[index].second) >= 0) && (a.second.compare(m_part->m_data[index + 1].second) < 0))
 						{
 							++index;
 							break;
