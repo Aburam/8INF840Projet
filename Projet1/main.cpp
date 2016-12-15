@@ -42,21 +42,21 @@ int main() {
 				break;
 			}
 			case 'i': {
-				cout << "quelque mot voulez-vous rajouter" << endl;
+				cout << "quel mot voulez-vous rajouter ?" << endl;
 				string newReponse;
 				cin >> newReponse;
 				sbtree.insert(newReponse);
 				break;
 			}
 			case 'r': {
-				cout << "quelque suffix voulez-vous rechercher" << endl;
+				cout << "quel suffix voulez-vous rechercher ?" << endl;
 				string newReponse;
 				cin >> newReponse;
 				sbtree.seekSuffix(newReponse);
 				break;
 			}
 			case 's': {
-				cout << "quelque sous-chaine voulez-vous rechercher" << endl;
+				cout << "quelle sous-chaine voulez-vous rechercher ?" << endl;
 				string newReponse;
 				cin >> newReponse;
 				sbtree.seek(newReponse);
