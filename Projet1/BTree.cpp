@@ -119,7 +119,6 @@ bool BTree::searchDown(string word)
 	}
 	for (int i = 0; i < current->m_size; ++i) {
 		std::size_t found = current->m_data[i].second.find(word);
-		cout << "[" << current->m_data[i].first << ", " << current->m_data[i].second << "]"  << endl;
 		if (found != string::npos){
 			cout << "Trouve ! " << word << " est la sous-chaine de [" << current->m_data[i].first << ", " << current->m_data[i].second << "]" << endl;
 			return true;
